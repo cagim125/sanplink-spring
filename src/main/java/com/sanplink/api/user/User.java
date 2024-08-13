@@ -29,4 +29,10 @@ public class User {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    User(UserDto userDto) {
+        this.username = userDto.getUsername();
+        this.email = userDto.getEmail();
+        this.password = userDto.getPassword();
+    }
 }

@@ -14,4 +14,11 @@ public class UserService {
     public List<User> getUser() {
         return userRepository.findAll();
     }
+
+    public User registerUser(UserDto userDto) {
+        User user = new User(userDto);
+
+        return userRepository.save(user);
+    }
+
 }

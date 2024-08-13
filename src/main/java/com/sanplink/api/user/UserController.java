@@ -2,9 +2,7 @@ package com.sanplink.api.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -15,14 +13,15 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping
-    public String getUser() {
+    public List<User> getUser() {
         List<User> users = userService.getUser();
-        users.forEach((user) -> {
-            System.out.println("user : " + user);
-        });
 
+        return users;
+    }
 
-        return "user API 호출";
+    @PostMapping("/register")
+    public User registredUser(@RequestBody UserDto userDto) {
+        return userService.registerUser(userDto);
     }
 
 }
