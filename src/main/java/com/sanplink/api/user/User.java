@@ -2,13 +2,17 @@ package com.sanplink.api.user;
 
 
 import jakarta.persistence.*;
+import lombok.Data;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Getter
@@ -20,6 +24,7 @@ public class User {
 
     @Column(unique = true)
     private String username;
+
     private String email;
     private String password;
 
@@ -31,9 +36,5 @@ public class User {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    User(UserDto userDto) {
-        this.username = userDto.getUsername();
-        this.email = userDto.getEmail();
-        this.password = userDto.getPassword();
-    }
+
 }
