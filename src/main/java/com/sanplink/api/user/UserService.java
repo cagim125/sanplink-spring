@@ -23,7 +23,10 @@ public class UserService {
     public User registerUser(UserDto userDto) {
         try {
             userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
-            User user = new User(userDto);
+            User user = new User();
+            user.setUsername(userDto.getUsername());
+            user.setPassword(userDto.getPassword());
+            user.setEmail(userDto.getEmail());
 
             return userRepository.save(user);
 
