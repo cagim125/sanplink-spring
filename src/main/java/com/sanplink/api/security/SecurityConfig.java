@@ -23,6 +23,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll()
         );
+        http.formLogin((formLogin) -> formLogin.loginPage("/users/login")
+                .defaultSuccessUrl("http://localhost:3000/")
+
+        );
         return http.build();
     }
 }
