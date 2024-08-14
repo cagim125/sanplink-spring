@@ -1,6 +1,7 @@
 package com.sanplink.api.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,8 @@ public class UserService {
     }
 
     public User registerUser(UserDto userDto) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        userDto.setPassword(encoder.encode(userDto.getPassword()));
         User user = new User(userDto);
 
         return userRepository.save(user);
