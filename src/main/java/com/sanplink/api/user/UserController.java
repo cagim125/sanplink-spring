@@ -3,17 +3,17 @@ package com.sanplink.api.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+//    private final UserRepository userRepository;
 
     @GetMapping
     public List<User> getUser() {
@@ -27,6 +27,17 @@ public class UserController {
         return userService.registerUser(userDto);
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<String> login(
+            @RequestParam String username ,
+            @RequestParam String password
+    ) {
+        if (username != null && password != null) {
+            return ResponseEntity.ok("데이터 잘 넘어옴");
+        }
+
+        return ResponseEntity.ok("데이터 잘 안 넘어옴");
+    }
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(HttpStatus.CONFLICT) // HTTP 409 상태 코드 반환
