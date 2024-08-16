@@ -1,11 +1,9 @@
 package com.sanplink.api.user;
 
 
+import com.sanplink.api.dto.SignUpDto;
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.CreatedDate;
@@ -17,6 +15,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +34,12 @@ public class User {
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    public User(SignUpDto dto) {
+        this.username = dto.getUsername();
+        this.email = dto.getEmail();
+        this.password = dto.getPassword();
+    }
 
 
 }
