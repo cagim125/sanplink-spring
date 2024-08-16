@@ -27,31 +27,28 @@ public class UserController {
     public User registredUser(@RequestBody UserDto userDto) {
         return userService.registerUser(userDto);
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(
-            @RequestParam String username ,
-            @RequestParam String password
-    ) {
-        if (username != null && password != null) {
-            return ResponseEntity.ok("데이터 잘 넘어옴");
-        }
-
-        return ResponseEntity.ok("데이터 잘 안 넘어옴");
-    }
+//
+//    @PostMapping("/login")
+//    public ResponseEntity<String> login(
+//            @RequestParam String username ,
+//            @RequestParam String password
+//    ) {
+//        if (username != null && password != null) {
+//            return ResponseEntity.ok("데이터 잘 넘어옴");
+//        }
+//
+//        return ResponseEntity.ok("데이터 잘 안 넘어옴");
+//    }
 
     @GetMapping("/my-page")
-    public String myPage(Authentication auth) {
+    public Authentication myPage(Authentication auth) {
 
-        if (auth == null) {
-            return "login";
-        }
         System.out.println(auth);
 //        System.out.println(auth.getName());
         System.out.println("isAuth : " + auth.isAuthenticated());
 //        System.out.println(auth.getAuthorities());
 
-        return auth.getName();
+        return auth;
     }
 
     @ExceptionHandler(RuntimeException.class)
