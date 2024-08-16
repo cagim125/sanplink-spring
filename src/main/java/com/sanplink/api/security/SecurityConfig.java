@@ -25,6 +25,7 @@ public class SecurityConfig {
         );
         http.formLogin((formLogin) -> formLogin.loginPage("/users/login")
                 .defaultSuccessUrl("http://localhost:3000/")
+                .failureUrl("http://localhost:3000/login")
 
         );
         return http.build();
