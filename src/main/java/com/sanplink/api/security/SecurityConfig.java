@@ -28,6 +28,8 @@ public class SecurityConfig {
                 .failureUrl("http://localhost:3000/login")
 
         );
+        http.logout(logout -> logout.logoutUrl("/logout"));
+
         return http.build();
     }
 }
