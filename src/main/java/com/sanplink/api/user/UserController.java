@@ -3,6 +3,7 @@ package com.sanplink.api.user;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
-//    private final UserRepository userRepository;
+
 
     @GetMapping
     public List<User> getUser() {
@@ -37,6 +38,20 @@ public class UserController {
         }
 
         return ResponseEntity.ok("데이터 잘 안 넘어옴");
+    }
+
+    @GetMapping("/my-page")
+    public String myPage(Authentication auth) {
+
+        if (auth == null) {
+            return "login";
+        }
+        System.out.println(auth);
+//        System.out.println(auth.getName());
+        System.out.println("isAuth : " + auth.isAuthenticated());
+//        System.out.println(auth.getAuthorities());
+
+        return auth.getName();
     }
 
     @ExceptionHandler(RuntimeException.class)
