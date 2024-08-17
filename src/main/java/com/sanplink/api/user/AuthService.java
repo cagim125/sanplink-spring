@@ -1,5 +1,7 @@
 package com.sanplink.api.user;
 
+import com.sanplink.api.dto.LoginDto;
+import com.sanplink.api.dto.LoginResponseDto;
 import com.sanplink.api.dto.ResponseDto;
 import com.sanplink.api.dto.SignUpDto;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +35,35 @@ public class AuthService {
         }
 
         return ResponseDto.setSuccess("회원 생성 성공");
+    }
+
+    public ResponseDto<?> login(LoginDto dto) {
+        String username = dto.getUsername();
+        String password = dto.getPassword();
+
+        try{
+            boolean existed = userRepository.existsByUsernameAndPassword(username, password);
+            if(!existed) {
+                return ResponseDto.setFailed("아이디나 비밀번호가 맞지 않습니다.");
+            }
+        } catch (Exception e) {
+            return ResponseDto.setFailed("DB 연결 실패");
+        }
+
+        User user = null;
+
+        try {
+            user = userRepository.findByUsername(username).get();
+        } catch (Exception e) {
+            return ResponseDto.setFailed("DB 연결 실패");
+        }
+
+        user.setPassword("");
+        int exprTime = 3600000;
+        String token = "";
+
+        LoginResponseDto loginResponseDto = new LoginResponseDto(token, exprTime, user);
+
+        return ResponseDto.setSuccessData("로그인 성공", loginResponseDto);
     }
 }

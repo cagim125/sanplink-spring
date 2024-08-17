@@ -1,5 +1,6 @@
 package com.sanplink.api.user;
 
+import com.sanplink.api.dto.LoginDto;
 import com.sanplink.api.dto.ResponseDto;
 import com.sanplink.api.dto.SignUpDto;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,13 @@ public class AuthController {
         System.out.println(signUpDto.toString());
 
         ResponseDto<?> result = authService.sighUp(signUpDto);
+
+        return result;
+    }
+
+    @PostMapping("/login")
+    public ResponseDto<?> login(@RequestBody LoginDto dto) {
+        ResponseDto<?> result = authService.login(dto);
 
         return result;
     }
