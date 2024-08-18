@@ -5,16 +5,24 @@ import com.sanplink.api.dto.LoginResponseDto;
 import com.sanplink.api.dto.ResponseDto;
 import com.sanplink.api.dto.SignUpDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final UserRepository userRepository;
+    private final TokenProvider tokenProvider;
+    private final PasswordEncoder passwordEncoder;
 
     public ResponseDto<?> sighUp(SignUpDto dto) {
         String username = dto.getUsername();
+        String encodedPassword = passwordEncoder.encode(dto.getPassword());
 
         // username 중복 확인
         try {
@@ -26,6 +34,8 @@ public class AuthService {
         }
 
         User user = new User(dto);
+
+        user.setPassword(encodedPassword);
 
         // DB에 Entity 저장
         try {
@@ -41,26 +51,32 @@ public class AuthService {
         String username = dto.getUsername();
         String password = dto.getPassword();
 
+        User user;
+
         try{
-            boolean existed = userRepository.existsByUsernameAndPassword(username, password);
-            if(!existed) {
-                return ResponseDto.setFailed("아이디나 비밀번호가 맞지 않습니다.");
+            user = userRepository.findByUsername(username).orElse(null);
+            if(user == null) {
+                return ResponseDto.setFailed("아이디로 등록된 계정이 존재 하지 않음");
             }
         } catch (Exception e) {
             return ResponseDto.setFailed("DB 연결 실패");
         }
 
-        User user = null;
+        String encodedPassword = user.getPassword();
 
-        try {
-            user = userRepository.findByUsername(username).get();
-        } catch (Exception e) {
-            return ResponseDto.setFailed("DB 연결 실패");
+        if (!passwordEncoder.matches(password, encodedPassword )) {
+            return ResponseDto.setFailed("아이디나 비번이 일치하지 않습니다.");
         }
 
         user.setPassword("");
-        int exprTime = 3600000;
-        String token = "";
+        int exprTime = 3600;
+//        String token = "";
+        String token = tokenProvider.createJwt(user.getUsername(), exprTime);
+
+        if (token == null) {
+            return ResponseDto.setFailed("토큰 생성 실패");
+        }
+
 
         LoginResponseDto loginResponseDto = new LoginResponseDto(token, exprTime, user);
 
