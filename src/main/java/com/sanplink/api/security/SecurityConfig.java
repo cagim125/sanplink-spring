@@ -31,17 +31,17 @@ public class SecurityConfig {
         http.authorizeHttpRequests((authorize) ->
                 authorize.requestMatchers("/**").permitAll()
         );
-        http.formLogin((formLogin) -> formLogin.loginPage("/users/login")
-                .defaultSuccessUrl("http://localhost:3000/")
-                .failureUrl("http://localhost:3000/login")
-
-        );
-        http.logout(logout -> logout
-                .logoutUrl("/api/logout")
-                .logoutSuccessHandler((request, response, authentication) -> {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                })
-        );
+//        http.formLogin((formLogin) -> formLogin.loginPage("/users/login")
+//                .defaultSuccessUrl("http://localhost:3000/")
+//                .failureUrl("http://localhost:3000/login")
+//
+//        );
+//        http.logout(logout -> logout
+//                .logoutUrl("/api/logout")
+//                .logoutSuccessHandler((request, response, authentication) -> {
+//                    response.setStatus(HttpServletResponse.SC_OK);
+//                })
+//        );
 
 
         return http.build();
