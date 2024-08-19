@@ -17,7 +17,7 @@ import java.util.Optional;
 public class AuthService {
 
     private final UserRepository userRepository;
-    private final TokenProvider tokenProvider;
+//    private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     public ResponseDto<?> sighUp(SignUpDto dto) {
@@ -70,12 +70,12 @@ public class AuthService {
 
         user.setPassword("");
         int exprTime = 3600;
-//        String token = "";
-        String token = tokenProvider.createJwt(user.getUsername(), exprTime);
+        String token = "";
+//        String token = tokenProvider.createJwt(user.getUsername(), exprTime);
 
-        if (token == null) {
-            return ResponseDto.setFailed("토큰 생성 실패");
-        }
+//        if (token == null) {
+//            return ResponseDto.setFailed("토큰 생성 실패");
+//        }
 
 
         LoginResponseDto loginResponseDto = new LoginResponseDto(token, exprTime, user);
