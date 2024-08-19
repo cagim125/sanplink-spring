@@ -1,5 +1,7 @@
 package com.sanplink.api.user;
 
+import com.sanplink.api.config.S3Service;
+import com.sanplink.api.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.parser.Cookie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,28 +18,32 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/")
+@RequestMapping("/api")
 @RequiredArgsConstructor
 public class UserController {
     private final UserService userService;
+    private final S3Service s3Service;
 
     private final AuthenticationManager authenticationManager;
 
-    @GetMapping("check")
+    @GetMapping("/check")
     public String check() {
         return "Suceess";
     }
 
-    @GetMapping
-    public List<User> getUser() {
-        List<User> users = userService.getUser();
 
-        return users;
+    @GetMapping("/presigned-url")
+    @ResponseBody
+    public String getUrl(@RequestParam String filename) {
+        String result = s3Service.createPresignedUrl("user/" + filename);
+        return result;
     }
 
-    @PostMapping("/register")
-    public User registredUser(@RequestBody UserDto userDto) {
-        return userService.registerUser(userDto);
+    @PostMapping("/signUp")
+    @ResponseBody
+    public ResponseDto<?> signUp(@RequestBody UserDto userDto) {
+//        System.out.println(userDto.toString());
+        return userService.signUp(userDto);
     }
 
     @PostMapping("/login")
@@ -64,15 +70,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/my-page")
-    public void myPage(Authentication auth) {
-
-        System.out.println(auth);
-//        System.out.println(auth.getName());
-        System.out.println("isAuth : " + auth.isAuthenticated());
-//        System.out.println(auth.getAuthorities());
-
-//        return auth;
+    @GetMapping("/my-page/{username}")
+    public ResponseDto<?> myPage(@PathVariable("username") String username) {
+        return userService.getUser(username);
     }
 
     @ExceptionHandler(RuntimeException.class)
