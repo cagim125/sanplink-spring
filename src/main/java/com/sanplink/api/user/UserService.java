@@ -1,6 +1,8 @@
 package com.sanplink.api.user;
 
+import com.sanplink.api.dto.PostDto;
 import com.sanplink.api.dto.ResponseDto;
+import com.sanplink.api.dto.UserResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.Response;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,10 +22,26 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
 
     // get user
-    public ResponseDto<?> getUser(String username) {
-        User result = userRepository.findByUsername(username).get();
-        result.setPassword("");
-        return ResponseDto.setSuccessData("성공", result);
+    public ResponseDto<?> getUser(Long userId) {
+        User result = userRepository.findById(userId).orElseThrow();
+        UserResponseDto userDto = new UserResponseDto();
+        userDto.setId(result.getId());
+        userDto.setUsername(result.getUsername());
+
+        List<PostDto> postDtos = result.getPosts().stream().map(post -> {
+            PostDto postDto = new PostDto();
+            postDto.setId(post.getId());
+            postDto.setContent(post.getContent());
+            postDto.setImageUrl(post.getImageUrl());
+            postDto.setUserId(result.getId());
+
+            return postDto;
+        }).collect(Collectors.toUnmodifiableList());
+
+        userDto.setPosts(postDtos);
+
+
+        return ResponseDto.setSuccessData("성공", userDto);
     }
 
     // Signup
