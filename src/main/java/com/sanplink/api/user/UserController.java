@@ -70,9 +70,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/my-page/{username}")
-    public ResponseDto<?> myPage(@PathVariable("username") String username) {
-        return userService.getUser(username);
+    @GetMapping("/my-page/{userId}")
+    public ResponseDto<?> myPage(@PathVariable("userId") Long userId) {
+        return userService.getUser(userId);
     }
 
     @ExceptionHandler(RuntimeException.class)
