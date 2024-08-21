@@ -1,6 +1,7 @@
 package com.sanplink.api.user;
 
 
+import com.sanplink.api.dto.PostDto;
 import com.sanplink.api.dto.SignUpDto;
 import com.sanplink.api.post.Post;
 import jakarta.persistence.*;
@@ -54,6 +55,4 @@ public class User {
         this.profileImageUrl = userDto.getProfileImageUrl();
 
     }
-
-
 }

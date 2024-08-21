@@ -21,15 +21,29 @@ public class PostController {
         return result;
     }
 
+    @GetMapping("/{id}")
+    public void getPost(@PathVariable Long id) {
+        System.out.println(id);
+//        return postService.getPost(postId);
+    }
+
     @PostMapping("/save")
     public ResponseDto<?> savePost(@RequestBody PostDto requestDto) {
         return postService.savePost(requestDto);
     }
+
+    @PutMapping
+    public ResponseDto<?> updatePost(@RequestBody PostDto postDto) {
+        System.out.println(postDto);
+        return postService.updatePost(postDto);
+    }
+
 
     @DeleteMapping
     public ResponseDto<?> deletePost(@RequestParam("postId") Long postId){
         System.out.println(postId);
         return postService.deletePost(postId);
     }
+
 
 }

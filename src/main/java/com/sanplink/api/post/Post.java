@@ -26,6 +26,11 @@ public class Post {
     private String content;
     private String imageUrl;
 
+    public Post(PostDto postDto) {
+        this.content = postDto.getContent();
+        this.imageUrl = postDto.getImageUrl();
+    }
+
     public Post(PostDto postDto, User user){
         this.content = postDto.getContent();
         this.imageUrl = postDto.getImageUrl();
