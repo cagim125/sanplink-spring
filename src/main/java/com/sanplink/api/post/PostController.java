@@ -26,4 +26,10 @@ public class PostController {
         return postService.savePost(requestDto);
     }
 
+    @DeleteMapping
+    public ResponseDto<?> deletePost(@RequestParam("postId") Long postId){
+        System.out.println(postId);
+        return postService.deletePost(postId);
+    }
+
 }

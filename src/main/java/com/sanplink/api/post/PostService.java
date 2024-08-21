@@ -48,4 +48,9 @@ public class PostService {
 
     }
 
+    public ResponseDto<?> deletePost(Long id) {
+        postRepository.deleteById(id);
+        return ResponseDto.setSuccess("삭제 되었습니다.");
+    }
+
 }
