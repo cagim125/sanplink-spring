@@ -27,6 +27,7 @@ public class UserService {
         UserResponseDto userDto = new UserResponseDto();
         userDto.setId(result.getId());
         userDto.setUsername(result.getUsername());
+        userDto.setProfileImgUrl(result.getProfileImageUrl());
 
         List<PostDto> postDtos = result.getPosts().stream().map(post -> {
             PostDto postDto = new PostDto();
@@ -37,9 +38,7 @@ public class UserService {
 
             return postDto;
         }).collect(Collectors.toUnmodifiableList());
-
         userDto.setPosts(postDtos);
-
 
         return ResponseDto.setSuccessData("성공", userDto);
     }
