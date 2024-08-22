@@ -10,5 +10,6 @@ import java.util.List;
 public class UserResponseDto {
     private Long id;
     private String username;
+    private String profileImgUrl;
     private List<PostDto> posts;
 }
