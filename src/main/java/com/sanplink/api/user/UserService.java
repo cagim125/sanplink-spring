@@ -21,8 +21,8 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // get user
-    public ResponseDto<?> getUser(Long userId) {
+    // Mypage
+    public ResponseDto<?> myPage(Long userId) {
         User result = userRepository.findById(userId).orElseThrow();
         UserResponseDto userDto = new UserResponseDto();
         userDto.setId(result.getId());
