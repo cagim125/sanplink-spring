@@ -1,6 +1,7 @@
 package com.sanplink.api.post;
 
 import com.sanplink.api.dto.PostDto;
+import com.sanplink.api.dto.PostResponsDto;
 import com.sanplink.api.dto.ResponseDto;
 import com.sanplink.api.user.User;
 import com.sanplink.api.user.UserRepository;
@@ -20,10 +21,20 @@ public class PostService {
         return postRepository.findAll();
     }
 
-    public ResponseDto<Post> getPost(Long postId) {
+    public ResponseDto<?> getPost(Long postId) {
         Optional<Post> result = postRepository.findById(postId);
         if (result.isPresent()) {
-            return ResponseDto.setSuccessData("조회 성공", result.get());
+            Post post = result.get();
+            PostDto postDto = new PostDto();
+            postDto.setId(post.getId());
+            postDto.setContent(post.getContent());
+            postDto.setImageUrl(post.getImageUrl());
+            postDto.setUserId(post.getUser().getId());
+
+            System.out.println(postDto.toString());
+
+
+            return ResponseDto.setSuccessData("조회 성공", postDto);
         }
 
         return ResponseDto.setFailed("해당 게시물이 존재하지 않습니다.");
@@ -59,11 +70,10 @@ public class PostService {
     // Update Post
     public ResponseDto<?> updatePost(PostDto postDto) {
         try {
-            if(!postRepository.existsById(postDto.getId())) {
-                return ResponseDto.setFailed("게시물이 존재하지 않음");
-            }
+            Post post = postRepository.findById(postDto.getId()).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-            Post post = new Post(postDto);
+            post.setContent(postDto.getContent());
+            post.setImageUrl(postDto.getImageUrl());
 
             postRepository.save(post);
 

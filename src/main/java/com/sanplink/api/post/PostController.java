@@ -22,9 +22,8 @@ public class PostController {
     }
 
     @GetMapping("/{id}")
-    public void getPost(@PathVariable Long id) {
-        System.out.println(id);
-//        return postService.getPost(postId);
+    public ResponseDto<?> getPost(@PathVariable Long id) {
+        return postService.getPost(id);
     }
 
     @PostMapping("/save")
@@ -37,7 +36,6 @@ public class PostController {
         System.out.println(postDto);
         return postService.updatePost(postDto);
     }
-
 
     @DeleteMapping
     public ResponseDto<?> deletePost(@RequestParam("postId") Long postId){
