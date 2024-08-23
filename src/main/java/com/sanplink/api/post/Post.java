@@ -1,6 +1,6 @@
 package com.sanplink.api.post;
 
-import com.sanplink.api.dto.PostDto;
+import com.sanplink.api.dto.PostRequestDto;
 import com.sanplink.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,14 +26,14 @@ public class Post {
     private String content;
     private String imageUrl;
 
-    public Post(PostDto postDto) {
-        this.content = postDto.getContent();
-        this.imageUrl = postDto.getImageUrl();
+    public Post(PostRequestDto postRequestDto) {
+        this.content = postRequestDto.getContent();
+        this.imageUrl = postRequestDto.getImageUrl();
     }
 
-    public Post(PostDto postDto, User user){
-        this.content = postDto.getContent();
-        this.imageUrl = postDto.getImageUrl();
+    public Post(PostRequestDto postRequestDto, User user){
+        this.content = postRequestDto.getContent();
+        this.imageUrl = postRequestDto.getImageUrl();
         this.user = user;
     }
 
