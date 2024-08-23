@@ -1,13 +1,7 @@
 package com.sanplink.api.user;
 
-import com.sanplink.api.dto.PostDto;
-import com.sanplink.api.dto.ResponseDto;
-import com.sanplink.api.dto.UserResponseDto;
+import com.sanplink.api.dto.*;
 import lombok.RequiredArgsConstructor;
-import org.apache.coyote.Response;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,30 +18,30 @@ public class UserService {
     // Mypage
     public ResponseDto<?> myPage(Long userId) {
         User result = userRepository.findById(userId).orElseThrow();
-        UserResponseDto userDto = new UserResponseDto();
+        MyPageResponseDto userDto = new MyPageResponseDto();
         userDto.setId(result.getId());
         userDto.setUsername(result.getUsername());
         userDto.setProfileImgUrl(result.getProfileImageUrl());
 
-        List<PostDto> postDtos = result.getPosts().stream().map(post -> {
-            PostDto postDto = new PostDto();
-            postDto.setId(post.getId());
-            postDto.setContent(post.getContent());
-            postDto.setImageUrl(post.getImageUrl());
-            postDto.setUserId(result.getId());
+        List<PostResponseDto> postRequestDtos = result.getPosts().stream().map(post -> {
+            PostResponseDto postResponseDto = new PostResponseDto();
+            postResponseDto.setId(post.getId());
+            postResponseDto.setContent(post.getContent());
+            postResponseDto.setImageUrl(post.getImageUrl());
 
-            return postDto;
+            return postResponseDto;
         }).collect(Collectors.toUnmodifiableList());
-        userDto.setPosts(postDtos);
+
+        userDto.setPosts(postRequestDtos);
 
         return ResponseDto.setSuccessData("성공", userDto);
     }
 
     // Signup
-    public ResponseDto<?> signUp(UserDto userDto) {
-        String username = userDto.getUsername();
+    public ResponseDto<?> signUp(UserRequestDto userRequestDto) {
+        String username = userRequestDto.getUsername();
 
-        userDto.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        userRequestDto.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
 
 
         try {
@@ -58,7 +52,7 @@ public class UserService {
             return ResponseDto.setFailed("DB 연결 실패");
         }
 
-        User user = new User(userDto);
+        User user = new User(userRequestDto);
 
         if(user.getProfileImageUrl() == ""){
             user.setProfileImageUrl("https://spring-test-bucket-123.s3.ap-northeast-2.amazonaws.com/user/anonymous.png");

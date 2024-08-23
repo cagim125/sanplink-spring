@@ -1,15 +1,13 @@
 package com.sanplink.api.user;
 
 
-import com.sanplink.api.dto.PostDto;
 import com.sanplink.api.dto.SignUpDto;
+import com.sanplink.api.dto.UserRequestDto;
 import com.sanplink.api.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Date;
 import java.util.List;
@@ -48,11 +46,11 @@ public class User {
         this.password = dto.getPassword();
     }
 
-    public User(UserDto userDto) {
-        this.username = userDto.getUsername();
-        this.password = userDto.getPassword();
-        this.email = userDto.getEmail();
-        this.profileImageUrl = userDto.getProfileImageUrl();
+    public User(UserRequestDto userRequestDto) {
+        this.username = userRequestDto.getUsername();
+        this.password = userRequestDto.getPassword();
+        this.email = userRequestDto.getEmail();
+        this.profileImageUrl = userRequestDto.getProfileImageUrl();
 
     }
 }

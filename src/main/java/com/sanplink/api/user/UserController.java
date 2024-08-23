@@ -2,9 +2,8 @@ package com.sanplink.api.user;
 
 import com.sanplink.api.config.S3Service;
 import com.sanplink.api.dto.ResponseDto;
+import com.sanplink.api.dto.UserRequestDto;
 import lombok.RequiredArgsConstructor;
-import org.apache.tomcat.util.http.parser.Cookie;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,9 +12,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -41,9 +37,9 @@ public class UserController {
 
     @PostMapping("/signUp")
     @ResponseBody
-    public ResponseDto<?> signUp(@RequestBody UserDto userDto) {
+    public ResponseDto<?> signUp(@RequestBody UserRequestDto userRequestDto) {
 //        System.out.println(userDto.toString());
-        return userService.signUp(userDto);
+        return userService.signUp(userRequestDto);
     }
 
     @PostMapping("/login")
