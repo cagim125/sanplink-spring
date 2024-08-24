@@ -1,6 +1,7 @@
 package com.sanplink.api.user;
 
 import com.sanplink.api.dto.*;
+import com.sanplink.api.post.PostResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

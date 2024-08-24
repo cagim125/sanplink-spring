@@ -1,8 +1,12 @@
 package com.sanplink.api.user;
 
 
+import com.sanplink.api.comment.Comment;
 import com.sanplink.api.dto.SignUpDto;
 import com.sanplink.api.dto.UserRequestDto;
+import com.sanplink.api.follow.Follow;
+import com.sanplink.api.like.Likes;
+import com.sanplink.api.notification.Notification;
 import com.sanplink.api.post.Post;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,6 +42,22 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Post> posts;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likes;
+
+    @OneToMany(mappedBy = "follower", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> followers;
+
+    @OneToMany(mappedBy = "following", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Follow> followings;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Notification> notifications;
+
 
 
     public User(SignUpDto dto) {
