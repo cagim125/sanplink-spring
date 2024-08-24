@@ -1,12 +1,15 @@
 package com.sanplink.api.post;
 
-import com.sanplink.api.dto.PostRequestDto;
+import com.sanplink.api.comment.Comment;
+import com.sanplink.api.like.Likes;
 import com.sanplink.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
@@ -25,6 +28,14 @@ public class Post {
 
     private String content;
     private String imageUrl;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Likes> likes;
+
+
 
     public Post(PostRequestDto postRequestDto) {
         this.content = postRequestDto.getContent();

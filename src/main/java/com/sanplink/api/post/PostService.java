@@ -1,5 +1,6 @@
 package com.sanplink.api.post;
 
+import com.sanplink.api.comment.CommentDto;
 import com.sanplink.api.dto.*;
 import com.sanplink.api.user.User;
 import com.sanplink.api.user.UserRepository;
@@ -32,8 +33,18 @@ public class PostService {
                 userResponseDto.setUsername(post.getUser().getUsername());
                 userResponseDto.setProfileImageUrl(post.getUser().getProfileImageUrl());
 
+                List<CommentDto> commentDtos =  post.getComments().stream().map(comment -> {
+                    CommentDto commentDto = new CommentDto();
+                    commentDto.setId(comment.getId());
+                    commentDto.setContent(comment.getContent());
+                    commentDto.setUserName(comment.getUser().getUsername());
+
+                    return commentDto;
+                }).collect(Collectors.toUnmodifiableList());
+
 
                 postResponseDto.setUser(userResponseDto);
+                postResponseDto.setComments(commentDtos);
 
                 return postResponseDto;
             }).collect(Collectors.toUnmodifiableList());

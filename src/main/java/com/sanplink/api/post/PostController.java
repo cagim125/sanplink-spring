@@ -1,12 +1,9 @@
 package com.sanplink.api.post;
 
 import com.sanplink.api.config.S3Service;
-import com.sanplink.api.dto.PostRequestDto;
 import com.sanplink.api.dto.ResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
