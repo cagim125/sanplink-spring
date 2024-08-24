@@ -1,4 +1,4 @@
-package com.sanplink.api.dto;
+package com.sanplink.api.post;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
