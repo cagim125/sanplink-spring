@@ -1,5 +1,6 @@
 package com.sanplink.api.dto;
 
+import com.sanplink.api.post.PostResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
