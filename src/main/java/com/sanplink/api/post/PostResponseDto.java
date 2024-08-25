@@ -2,6 +2,7 @@ package com.sanplink.api.post;
 
 import com.sanplink.api.comment.CommentDto;
 import com.sanplink.api.dto.UserResponseDto;
+import com.sanplink.api.like.Likes;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,7 @@ public class PostResponseDto {
     private String imageUrl;
     private UserResponseDto user;
     private List<CommentDto> comments;
+    private int likeCount;
+    private boolean likedByUser;
 
 }

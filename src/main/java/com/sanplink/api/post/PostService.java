@@ -2,6 +2,7 @@ package com.sanplink.api.post;
 
 import com.sanplink.api.comment.CommentDto;
 import com.sanplink.api.dto.*;
+import com.sanplink.api.like.Likes;
 import com.sanplink.api.user.User;
 import com.sanplink.api.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,8 @@ public class PostService {
 
                     return commentDto;
                 }).collect(Collectors.toUnmodifiableList());
+
+
 
 
                 postResponseDto.setUser(userResponseDto);
