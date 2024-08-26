@@ -1,15 +1,11 @@
-package com.sanplink.api.user;
+package com.sanplink.api.auth;
 
 import com.sanplink.api.dto.LoginDto;
 import com.sanplink.api.dto.ResponseDto;
 import com.sanplink.api.dto.SignUpDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -29,8 +25,8 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseDto<?> login(@RequestBody LoginDto dto) {
-        ResponseDto<?> result = authService.login(dto);
+    public ResponseDto<?> login(@RequestBody AuthRequestDto requestDto) {
+        ResponseDto<?> result = authService.login(requestDto);
 
         return result;
     }
