@@ -84,8 +84,10 @@ public class AuthService {
 
         AuthResponseDto authResponseDto = new AuthResponseDto(
                 token,
+                user.get().getId(),
                 user.get().getUsername(),
                 user.get().getEmail()
+
                 );
 
         return ResponseDto.setSuccessData("로그인 성공", authResponseDto);
