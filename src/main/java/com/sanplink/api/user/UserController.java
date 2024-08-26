@@ -35,35 +35,35 @@ public class UserController {
         return result;
     }
 
-    @PostMapping("/signUp")
-    @ResponseBody
-    public ResponseDto<?> signUp(@RequestBody UserRequestDto userRequestDto) {
-//        System.out.println(userDto.toString());
-        return userService.signUp(userRequestDto);
-    }
+//    @PostMapping("/signUp")
+//    @ResponseBody
+//    public ResponseDto<?> signUp(@RequestBody UserRequestDto userRequestDto) {
+////        System.out.println(userDto.toString());
+//        return userService.signUp(userRequestDto);
+//    }
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequest) {
-
-        try{
-            // UsernamePasswordAuthenticationToken을 사용해 사용자를 인증
-            Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(userLoginRequest.getUsername(), userLoginRequest.getPassword())
-            );
-            // 인증 성공 시
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-
-            // username, password, authority 값을 저장할 객체
-            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
-
-
-            return ResponseEntity.ok(userDetails);
-        } catch (BadCredentialsException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
-        }
-
-    }
+//    @PostMapping("/login")
+//    public ResponseEntity<?> login(@RequestBody UserLoginRequest userLoginRequest) {
+//
+//        try{
+//            // UsernamePasswordAuthenticationToken을 사용해 사용자를 인증
+//            Authentication authentication = authenticationManager.authenticate(
+//                    new UsernamePasswordAuthenticationToken(userLoginRequest.getUsername(), userLoginRequest.getPassword())
+//            );
+//            // 인증 성공 시
+//            SecurityContextHolder.getContext().setAuthentication(authentication);
+//
+//            // username, password, authority 값을 저장할 객체
+//            UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+//
+//
+//
+//            return ResponseEntity.ok(userDetails);
+//        } catch (BadCredentialsException e) {
+//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid credentials");
+//        }
+//
+//    }
 
 
     @GetMapping("/my-page/{userId}")
