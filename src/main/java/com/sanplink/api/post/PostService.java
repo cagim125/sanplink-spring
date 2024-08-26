@@ -3,6 +3,7 @@ package com.sanplink.api.post;
 import com.sanplink.api.comment.CommentDto;
 import com.sanplink.api.dto.*;
 import com.sanplink.api.like.Likes;
+import com.sanplink.api.like.LikesRepository;
 import com.sanplink.api.user.User;
 import com.sanplink.api.user.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +18,9 @@ import java.util.stream.Collectors;
 public class PostService {
     private final PostRepository postRepository;
     private final UserRepository userRepository;
+    private final LikesRepository likesRepository;
 
-    public ResponseDto<?> allPost() {
+    public ResponseDto<?> allPost(Long currentUserId) {
         try {
             List<Post> posts = postRepository.findAll();
 
@@ -43,11 +45,13 @@ public class PostService {
                     return commentDto;
                 }).collect(Collectors.toUnmodifiableList());
 
-
-
+                int count = likesRepository.countByPost(post);
+                boolean likedByUser = likesRepository.existsByPostAndUserId(post, currentUserId);
 
                 postResponseDto.setUser(userResponseDto);
                 postResponseDto.setComments(commentDtos);
+                postResponseDto.setLikeCount(count);
+                postResponseDto.setLikedByUser(likedByUser);
 
                 return postResponseDto;
             }).collect(Collectors.toUnmodifiableList());

@@ -13,8 +13,10 @@ public class PostController {
     private final S3Service s3Service;
 
     @GetMapping
-    public ResponseDto<?> getAllPost() {
-        return postService.allPost();
+    public ResponseDto<?> getAllPost(
+            @RequestParam Long currentUserId
+    ) {
+        return postService.allPost(currentUserId);
     }
 
 
